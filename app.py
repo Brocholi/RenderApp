@@ -5,7 +5,7 @@ st.header('Effect of Fuel and Mileage on Price')
 import plotly.express as px
 
 df= pd.read_csv('vehicles_us.csv')
-columns_kept= ['price', 'fuel', 'odometer']
+columns_kept= ['price', 'fuel', 'odometer', 'condition']
 filtered_df= df[columns_kept]
 
 #First histogram, Price vs. fuel type
@@ -28,6 +28,7 @@ else:
     st.warning('Please select a fuel type.')
 
 #Second plot, Price vs. Odometer
+df['odometer'] = df['odometer'].fillna(df.groupby(['condition'])['odometer'].transform('median'))
 second_columns= ['price', 'odometer']
 second_df= df[second_columns]
 cleaned_df2= second_df[['price', 'odometer']].drop_duplicates().dropna()
